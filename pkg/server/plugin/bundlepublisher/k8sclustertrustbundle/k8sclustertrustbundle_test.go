@@ -537,6 +537,15 @@ func TestApplyClusterTrustBundle(t *testing.T) {
 			_, trustBundle, err = tt.getCTB(t.Context(), clientset)
 			require.NoError(t, err)
 			require.Len(t, parsePEMCertificates(t, trustBundle), 2)
+
+			for _, action := range clientset.Actions() {
+				if patch, ok := action.(k8stesting.PatchActionImpl); ok {
+					opts := patch.GetPatchOptions()
+					require.Equal(t, "spire-bundlepublisher-k8s_clustertrustbundle", opts.FieldManager)
+					require.NotNil(t, opts.Force)
+					require.True(t, *opts.Force)
+				}
+			}
 		})
 	}
 }

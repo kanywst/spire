@@ -102,6 +102,7 @@ func (c *k8sClient) applyV1beta1(ctx context.Context, cluster *Cluster, trustBun
 func applyOptions() metav1.ApplyOptions {
 	return metav1.ApplyOptions{
 		FieldManager: fmt.Sprintf("spire-bundlepublisher-%s", pluginName),
+		Force:        true,
 	}
 }
 
