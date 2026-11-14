@@ -38,7 +38,6 @@ The plugin uses the Kubernetes Apply operation to manage ClusterTrustBundles. Th
 
 The Service Account needs the following permissions:
 
-- `get` on ClusterTrustBundles (required for the Apply operation to read the current state)
 - `patch` on ClusterTrustBundles (required for the Apply operation to update resources)
 - `create` on ClusterTrustBundles (required if the ClusterTrustBundle doesn't exist)
 - `attest` on the `signers` resource of the `certificates.k8s.io` API group for the configured signer name (required only when `signer_name` is set)
@@ -55,8 +54,8 @@ metadata:
 rules:
 - apiGroups: ["certificates.k8s.io"]
   resources: ["clustertrustbundles"]
-  verbs: ["create", "get", "patch"]
-  resourceNames: ["example.org:spire:bundle"]  # Restrict to specific ClusterTrustBundle for create, get and patch operations
+  verbs: ["create", "patch"]
+  resourceNames: ["example.org:spire:bundle"]  # Restrict to specific ClusterTrustBundle for create and patch operations
 - apiGroups: ["certificates.k8s.io"]
   resources: ["signers"]
   verbs: ["attest"]
